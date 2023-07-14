@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "EmployeeInputModel",
+  "description": "Validación de los datos del empleado",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "description": "Nombre del empleado",
+      "type": "string",
+      "maxLength": 25,
+      "minLength": 2
+    },
+    "middleName": {
+      "description": "Segundo nombre del empleado",
+      "type": ["string", "null"],
+      "maxLength": 25,
+      "minLength": 2
+    },
+    "lastName": {
+      "description": "Apellido del empleado",
+      "type": "string",
+      "maxLength": 25,
+      "minLength": 2
+    },
+    "secondLastName": {
+      "description": "Segundo nombre del empleado",
+      "type": ["string", "null"],
+      "maxLength": 25,
+      "minLength": 2
+    },
+    "birthday": {
+      "description": "Fecha de nacimiento del empleado",
+      "type": "string",
+      "pattern": "([1-2][0-9][0-9][0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "documentType": {
+      "description": "Tipo de identificación del empleado",
+      "enum": ["cc", "pas", "otro"]
+    },
+    "documentNumber": {
+      "description": "Número de identificación del empleado",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 15
+    },
+    "salary": {
+      "description": "Número de identificación del empleado",
+      "type": "number",
+      "minimum": 100,
+      "maximum": 9999999
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName",
+    "birthday",
+    "documentType",
+    "documentNumber",
+    "salary"
+  ]
+}

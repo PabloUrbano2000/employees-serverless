@@ -1,0 +1,65 @@
+service: gestion-empleados-api
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: purbano-personal
+  # automaticamente se designa el ambiente
+  stage: ${opt:stage}
+  # automaticamente se designa la region
+  region: ${opt:region}
+  apiGateway:
+    request:
+      schemas:
+        employee-input-model:
+          name: EmployeeInputModel
+          schema: ${file(infraestructure/handlers/schemas/employees.json)}
+          description: "Validación de los datos del empleado"
+
+plugins:
+  - serverless-offline
+
+functions:
+  getEmployees:
+    handler: infraestructure/handlers/employees.getAll
+    events:
+      # v2 https://www.serverless.com/framework/docs/providers/aws/events/http-api
+      - http:
+          path: employees # https://dominio.fulanito/{stage}/employees
+          method: get
+  createEmployee:
+    handler: infraestructure/handlers/employees.create
+    events:
+      # v2 https://www.serverless.com/framework/docs/providers/aws/events/http-api
+      - http:
+          path: employees # https://dominio.fulanito/{stage}/employees
+          method: post
+          request:
+            schemas:
+              application/json: employee-input-model
+  getEmployee:
+    handler: infraestructure/handlers/employees.getById
+    events:
+      # v2 https://www.serverless.com/framework/docs/providers/aws/events/http-api
+      - http:
+          path: employees/{id} # https://dominio.fulanito/{stage}/employees/{id}
+          method: get
+  updateEmployee:
+    handler: infraestructure/handlers/employees.update
+    events:
+      # v2 https://www.serverless.com/framework/docs/providers/aws/events/http-api
+      - http:
+          path: employees/{id} # https://dominio.fulanito/{stage}/employees/{id}
+          method: put
+          request:
+            schemas:
+              application/json: employee-input-model
+  deleteEmployee:
+    handler: infraestructure/handlers/employees.delete
+    events:
+      # v2 https://www.serverless.com/framework/docs/providers/aws/events/http-api
+      - http:
+          path: employees/{id} # https://dominio.fulanito/{stage}/employees/{id}
+          method: delete
