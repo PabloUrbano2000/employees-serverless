@@ -1,67 +1,79 @@
-const data = [
-    {
-        id: 1,
-        primer_nombre: "José",
-        segundo_nombre: "Felix",
-        primer_apellido: "Ribas",
-        segundo_apellido: "Caldera",
-        fecha_nacimiento: new Date('2000-01-20'),
-        tipo_identificacion: "cc",
-        numero_identificacion: "3131588",
-        sueldo: 2000.0
-    },
-    {
-        id: 2,
-        primer_nombre: "Kelvin",
-        segundo_nombre: "Rafael",
-        primer_apellido: "Mosquera",
-        segundo_apellido: "Betancourt",
-        fecha_nacimiento: new Date('197-06-20'),
-        tipo_identificacion: "nit",
-        numero_identificacion: "66654847",
-        sueldo: 3000.0
-    },
-];
+const db = require("./connections");
+const TableName = "employees";
 
-const findEmpleados = async () => {
-    return data;
-}
+const findEmployees = async () => {
+  return db.select().table(TableName);
+};
 
-const findOneEmpleado = async (id) => {
-
-}
-const createEmpleado = async ({
-    primer_nombre,
-    segundo_nombre,
-    primer_apellido,
-    segundo_apellido,
-    fecha_nacimiento,
-    tipo_identificacion,
-    numero_identificacion,
-    sueldo
+const findOneEmployee = async (id) => {
+  return db.select().where("id", id).table(TableName);
+};
+const createEmployee = async ({
+  first_name,
+  middle_name,
+  last_name,
+  second_last_name,
+  birthday,
+  document_type,
+  document_number,
+  salary,
 }) => {
+  await db(TableName).insert({
+    first_name,
+    middle_name,
+    last_name,
+    second_last_name,
+    birthday,
+    document_type,
+    document_number,
+    salary,
+  });
+};
+const updateEmployee = async (
+  {
+    first_name,
+    middle_name,
+    last_name,
+    second_last_name,
+    birthday,
+    document_type,
+    document_number,
+    salary,
+  },
+  id
+) => {
+  await db(TableName).where("id", "=", id).update({
+    first_name,
+    middle_name,
+    last_name,
+    second_last_name,
+    birthday,
+    document_type,
+    document_number,
+    salary,
+  });
+};
 
-}
-const updateEmpleado = async ({
-    primer_nombre,
-    segundo_nombre,
-    primer_apellido,
-    segundo_apellido,
-    fecha_nacimiento,
-    tipo_identificacion,
-    numero_identificacion,
-    sueldo
-}, id) => {
+const findEmployeeByDocument = async (documentType, documentNumber, id) => {
+  return db
+    .select()
+    .where({
+      document_type: documentType || "",
+      document_number: documentNumber || "",
+    })
+    .andWhereNot({ id })
+    .table(TableName);
+};
 
-}
-const deleteEmpleado = async (id) => {
-
-}
+const deleteEmployee = async (id) => {
+  await db.where("id", id).table(TableName).del();
+};
 
 module.exports = {
-    findEmpleados,
-    findOneEmpleado,
-    createEmpleado,
-    updateEmpleado,
-    deleteEmpleado,
-}
+  findEmployees,
+  findOneEmployee,
+  findEmployeeByDocument,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+};

@@ -1,51 +1,50 @@
-const getEmpleadoFromDBDto = ({
-    id,
-    primer_nombre,
-    segundo_nombre,
-    primer_apellido,
-    segundo_apellido,
-    fecha_nacimiento,
-    tipo_identificacion,
-    numero_identificacion,
-    sueldo
+const getEmployeeFromDBDto = ({
+  id,
+  first_name,
+  middle_name,
+  last_name,
+  second_last_name,
+  birthday,
+  document_type,
+  document_number,
+  salary,
 }) => ({
-    id: id,
-    primerNombre: primer_nombre,
-    segundoNombre: segundo_nombre,
-    primerApellido: primer_apellido,
-    segundoApellido: segundo_apellido,
-    fechaNacimiento: fecha_nacimiento,
-    tipoIdentificacion: tipo_identificacion,
-    numeroIdentificacion: numero_identificacion,
-    sueldo: sueldo
+  id: id,
+  firstName: first_name,
+  middleName: middle_name,
+  lastName: last_name,
+  secondLastName: second_last_name,
+  birthday: birthday,
+  documentType: document_type,
+  documentNumber: document_number,
+  salary: salary,
 });
 
-const getEmpleadosFromDBArray = (empleadosDB) => empleadosDB.map(getEmpleadoFromDBDto);
+const getEmployeesFromDBArray = (employeesDB) =>
+  employeesDB.map(getEmployeeFromDBDto);
 
-const getDBFromEmpleadoDto = ({
-    primerNombre,
-    segundoNombre,
-    primerApellido,
-    segundoApellido,
-    fechaNacimiento,
-    tipoIdentificacion,
-    numeroIdentificacion,
-    sueldo
+const getDBFromEmployeeDto = ({
+  firstName,
+  middleName,
+  lastName,
+  secondLastName,
+  birthday,
+  documentType,
+  documentNumber,
+  salary,
 }) => ({
-    primer_nombre: primerNombre,
-    segundo_nombre: segundoNombre,
-    primer_apellido: primerApellido,
-    segundo_apellido: segundoApellido,
-    fecha_nacimiento: fechaNacimiento,
-    tipo_identificacion: tipoIdentificacion,
-    numero_identificacion: numeroIdentificacion,
-    sueldo: sueldo
+  first_name: firstName,
+  middle_name: middleName,
+  last_name: lastName,
+  second_last_name: secondLastName,
+  birthday: birthday,
+  document_type: documentType,
+  document_number: documentNumber,
+  salary: salary,
 });
 
 module.exports = {
-    getEmpleadoFromDBDto,
-    getEmpleadosFromDBArray,
-    getDBFromEmpleadoDto,
-}
-
- 
+  getEmployeeFromDBDto,
+  getEmployeesFromDBArray,
+  getDBFromEmployeeDto,
+};

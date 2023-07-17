@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const { responseFail, responseSuccess } = require("../helpers/responses");
+const employeesUC = require("../../domain/usecase/empleados-usecase");
 
 const data = [
   {
@@ -28,9 +29,11 @@ const getEmployees = async () => {
   let response = null;
 
   try {
-    response = responseSuccess({ data });
+    const result = await employeesUC.getEmployees();
+    response = responseSuccess({ data: result });
   } catch (error) {
-    response = responseFail({ message: "Error inesperado" });
+    console.log(error);
+    response = responseFail(error);
   }
 
   return response;
@@ -40,13 +43,14 @@ const createEmployee = async (data) => {
   let response = null;
 
   try {
-    console.log("Employee Data:", data);
+    await employeesUC.createEmployee(data);
     response = responseSuccess(
       { message: "Empleado creado" },
       StatusCodes.CREATED
     );
   } catch (error) {
-    response = responseFail({ message: "Error inesperado" });
+    console.log(error);
+    response = responseFail(error);
   }
 
   return response;
@@ -56,10 +60,11 @@ const getEmployeeById = async (id) => {
   let response = null;
 
   try {
-    console.log("Employee Data:", id);
-    response = responseSuccess({ data: data[id] || null }, StatusCodes.OK);
+    const empleado = await employeesUC.getDetailEmployee(id);
+    response = responseSuccess({ data: empleado }, StatusCodes.OK);
   } catch (error) {
-    response = responseFail({ message: "Error inesperado" });
+    console.log(error);
+    response = responseFail(error);
   }
 
   return response;
@@ -69,13 +74,14 @@ const updateEmployee = async (data, id) => {
   let response = null;
 
   try {
-    console.log("Employee Data:", data, id);
+    await employeesUC.updateEmployee(data, id);
     response = responseSuccess(
       { message: "Empleado actualizado" },
       StatusCodes.OK
     );
   } catch (error) {
-    response = responseFail({ message: "Error inesperado" });
+    console.log(error);
+    response = responseFail(error);
   }
 
   return response;
@@ -85,13 +91,14 @@ const deleteEmployee = async (id) => {
   let response = null;
 
   try {
-    console.log("Employee Data:", id);
+    await employeesUC.deleteEmployee(id);
     response = responseSuccess(
       { message: "Empleado eliminado" },
       StatusCodes.OK
     );
   } catch (error) {
-    response = responseFail({ message: "Error inesperado" });
+    console.log(error);
+    response = responseFail(error);
   }
 
   return response;

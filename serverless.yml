@@ -17,7 +17,14 @@ provider:
           name: EmployeeInputModel
           schema: ${file(infraestructure/handlers/schemas/employees.json)}
           description: "Validación de los datos del empleado"
-
+  environment:
+    MYSQL_HOST: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_HOST}
+    MYSQL_PORT: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_PORT}
+    MYSQL_USER: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_USER}
+    MYSQL_PASS: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_PASS}
+    MYSQL_DB: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_DB}
+    SERVICE_HISTORY: ${file(./config/${opt:stage, 'dev'}.json):SERVICE_HISTORY}
+    SERVICE_HISTORY_KEY: ${file(./config/${opt:stage, 'dev'}.json):SERVICE_HISTORY_KEY}
 plugins:
   - serverless-offline
 

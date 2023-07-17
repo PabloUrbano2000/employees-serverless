@@ -32,7 +32,6 @@ module.exports.getById = async (event) => {
 };
 
 module.exports.update = async (event) => {
-  console.log(event);
   const { id } = event?.pathParameters || {};
   const { success, data, message, statusCode } = await updateEmployee(
     JSON.parse(event.body),
